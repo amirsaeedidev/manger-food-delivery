@@ -57,6 +57,8 @@ const App = () => (
     <Route element={<CustomerLayout />}>
       <Route index element={<HomePage />} />
       <Route path="cart" element={<ComingSoonPage title="سبد خرید" />} />
+      <Route path="menu" element={<ComingSoonPage title="منو" />} />
+      <Route path="offers" element={<ComingSoonPage title="پیشنهادهای ویژه" />} />
       <Route path="messages" element={<ComingSoonPage title="پیام‌ها" />} />
       <Route path="notifications" element={<ComingSoonPage title="اعلان‌ها" />} />
       <Route path="profile" element={<ComingSoonPage title="حساب کاربری" />} />

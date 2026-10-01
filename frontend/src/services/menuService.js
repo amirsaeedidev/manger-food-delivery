@@ -1,9 +1,41 @@
 /**
- * menuService — menu API (items and categories).
+ * menuService — menu API (items, categories, offers).
  *
- * TODO: implement the requests with the shared Axios instance:
+ * The functions are asynchronous like real HTTP calls, so the pages do not change when the
+ * backend arrives. For now they read the mock data in ./mock/menu.mock.js.
+ *
+ * TODO: replace the bodies with requests that use the shared Axios instance, e.g.
  *   import api from './api';
+ *   listItems: (params) => api.get('/menu/items', { params }).then((res) => res.data.data)
  */
-const menuService = {};
+import { normalizeFa } from '../utils/helpers';
+
+import { categories, foods, offers } from './mock/menu.mock';
+
+const menuService = {
+  async listCategories() {
+    return categories;
+  },
+
+  // filters: { category, query, weekly }
+  async listItems({ category, query, weekly } = {}) {
+    const needle = normalizeFa(query || '');
+
+    return foods.filter(
+      (food) =>
+        (!category || food.category === category) &&
+        (!weekly || food.weekly) &&
+        (!needle || normalizeFa(food.name).includes(needle))
+    );
+  },
+
+  async getItem(id) {
+    return foods.find((food) => food.id === id) || null;
+  },
+
+  async listOffers() {
+    return offers;
+  },
+};
 
 export default menuService;

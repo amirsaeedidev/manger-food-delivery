@@ -110,6 +110,11 @@
   --ui-shadow-hero-color: rgba(30, 30, 60, 0.18);
 }
 
+:root {
+  /* Thumbnail shadow on the (always white) food cards */
+  --ui-shadow-card-color: rgba(15, 23, 42, 0.22);
+}
+
 /*
  * Horizontal shadows follow the reading direction: the reference designs (LTR) cast the dish
  * shadow to the bottom-right, so in the mirrored RTL layout it is cast to the bottom-left.

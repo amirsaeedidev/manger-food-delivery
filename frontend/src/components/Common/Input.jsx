@@ -11,7 +11,7 @@ import Icon from './Icon';
 
 const Input = forwardRef(({ icon, className = '', inputClassName = '', ...rest }, ref) => (
   <label
-    className={`flex h-[49px] items-center gap-3 rounded-[14px] bg-ui-field px-4 text-ui-field-fg shadow-field focus-within:ring-2 focus-within:ring-ui-accent ${className}`}
+    className={`flex h-[49px] items-center gap-[9px] rounded-[14px] bg-ui-field px-4 text-ui-field-fg shadow-field focus-within:ring-2 focus-within:ring-ui-accent ${className}`}
   >
     {icon && <Icon name={icon} size={20} className="shrink-0 text-ui-placeholder" />}
     <input

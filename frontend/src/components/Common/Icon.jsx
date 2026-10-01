@@ -25,6 +25,7 @@ import {
   Moon,
   Pizza,
   Plus,
+  Salad,
   Search,
   Settings,
   ShoppingBag,
@@ -95,6 +96,7 @@ const ICONS = {
   drink: { component: CupSoda },
   burger: { component: Hamburger },
   pizza: { component: Pizza },
+  salad: { component: Salad },
   more: { component: Ellipsis },
 };
 
