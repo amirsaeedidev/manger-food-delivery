@@ -65,7 +65,8 @@
 
   --ui-shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.35);
   --ui-shadow-stepper: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --ui-shadow-hero: 14px 18px 22px rgba(0, 0, 0, 0.45);
+  --ui-shadow-field: none;
+  --ui-shadow-hero-color: rgba(0, 0, 0, 0.45);
 }
 
 /* ── Customer app: light theme (reference: "Food detail" screen) ────────── */
@@ -103,5 +104,17 @@
 
   --ui-shadow-soft: 0 8px 24px rgba(24, 30, 60, 0.07);
   --ui-shadow-stepper: 0 4px 12px rgba(24, 30, 60, 0.07);
-  --ui-shadow-hero: 14px 18px 22px rgba(30, 30, 60, 0.18);
+  --ui-shadow-field: 0 4px 14px rgba(24, 30, 60, 0.05);
+  --ui-shadow-hero-color: rgba(30, 30, 60, 0.18);
+}
+
+/*
+ * Horizontal shadows follow the reading direction: the reference designs (LTR) cast the dish
+ * shadow to the bottom-right, so in the mirrored RTL layout it is cast to the bottom-left.
+ */
+:root {
+  --ui-shadow-dir: 1;
+}
+:root[dir='rtl'] {
+  --ui-shadow-dir: -1;
 }

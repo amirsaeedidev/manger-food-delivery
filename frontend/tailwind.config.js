@@ -45,6 +45,7 @@ module.exports = {
       boxShadow: {
         soft: 'var(--ui-shadow-soft)',
         stepper: 'var(--ui-shadow-stepper)',
+        field: 'var(--ui-shadow-field)',
       },
     },
   },
