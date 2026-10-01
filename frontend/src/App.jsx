@@ -2,16 +2,23 @@
  * Root component
  * کامپوننت اصلی
  *
- * Declares the application routes. Every page renders inside <Layout />.
+ * Declares the application routes:
+ *  - /login, /register, /forgot-password   public authentication screens
+ *  - /admin/...                            admin panel, rendered inside <Layout />
+ *  - everything else                       customer app, rendered inside <CustomerLayout />
  */
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
+import CustomerLayout from './components/Layout/CustomerLayout';
 
 import ForgotPassword from './components/Auth/ForgotPassword';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 
+import AccountSettingsPage from './pages/AccountSettingsPage';
+import ComingSoonPage from './pages/ComingSoonPage';
+import CustomerNotFoundPage from './pages/CustomerNotFoundPage';
 import CustomersPage from './pages/CustomersPage';
 import DashboardPage from './pages/DashboardPage';
 import HomePage from './pages/HomePage';
@@ -31,9 +38,9 @@ const App = () => (
     <Route path="/register" element={<Register />} />
     <Route path="/forgot-password" element={<ForgotPassword />} />
 
-    {/* TODO: wrap these routes with <ProtectedRoute /> once authentication is implemented. */}
-    <Route element={<Layout />}>
-      <Route index element={<HomePage />} />
+    {/* Admin panel. TODO: wrap it with <ProtectedRoute /> once authentication is implemented. */}
+    <Route path="/admin" element={<Layout />}>
+      <Route index element={<Navigate to="dashboard" replace />} />
       <Route path="dashboard" element={<DashboardPage />} />
       <Route path="orders" element={<OrdersPage />} />
       <Route path="tables" element={<TablesPage />} />
@@ -44,6 +51,17 @@ const App = () => (
       <Route path="reports" element={<ReportsPage />} />
       <Route path="settings" element={<SettingsPage />} />
       <Route path="*" element={<NotFoundPage />} />
+    </Route>
+
+    {/* Customer app (mobile-first, dark and light theme) */}
+    <Route element={<CustomerLayout />}>
+      <Route index element={<HomePage />} />
+      <Route path="cart" element={<ComingSoonPage title="سبد خرید" />} />
+      <Route path="messages" element={<ComingSoonPage title="پیام‌ها" />} />
+      <Route path="notifications" element={<ComingSoonPage title="اعلان‌ها" />} />
+      <Route path="profile" element={<ComingSoonPage title="حساب کاربری" />} />
+      <Route path="settings" element={<AccountSettingsPage />} />
+      <Route path="*" element={<CustomerNotFoundPage />} />
     </Route>
   </Routes>
 );

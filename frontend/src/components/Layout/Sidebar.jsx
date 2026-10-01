@@ -6,15 +6,15 @@
 import { NavLink } from 'react-router-dom';
 
 const navItems = [
-  { to: '/dashboard', label: 'داشبورد' },
-  { to: '/orders', label: 'سفارش‌ها' },
-  { to: '/tables', label: 'میزها' },
-  { to: '/menu', label: 'منو' },
-  { to: '/customers', label: 'مشتریان' },
-  { to: '/inventory', label: 'انبار' },
-  { to: '/reservations', label: 'رزروها' },
-  { to: '/reports', label: 'گزارش‌ها' },
-  { to: '/settings', label: 'تنظیمات' },
+  { to: '/admin/dashboard', label: 'داشبورد' },
+  { to: '/admin/orders', label: 'سفارش‌ها' },
+  { to: '/admin/tables', label: 'میزها' },
+  { to: '/admin/menu', label: 'منو' },
+  { to: '/admin/customers', label: 'مشتریان' },
+  { to: '/admin/inventory', label: 'انبار' },
+  { to: '/admin/reservations', label: 'رزروها' },
+  { to: '/admin/reports', label: 'گزارش‌ها' },
+  { to: '/admin/settings', label: 'تنظیمات' },
 ];
 
 const linkClass = ({ isActive }) =>

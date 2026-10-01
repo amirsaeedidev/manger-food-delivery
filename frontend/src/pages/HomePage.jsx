@@ -1,13 +1,16 @@
 /**
- * HomePage — landing page.
+ * HomePage — landing page of the customer app.
  *
- * TODO: replace this placeholder with the real home screen.
+ * TODO: replace this placeholder with the real home screen (search, offers, categories, weekly specials).
  */
+import EmptyState from '../components/Common/EmptyState';
+
 const HomePage = () => (
-  <section>
-    <h1 className="mb-2 text-2xl font-bold">به سیستم مدیریت رستوران خوش آمدید</h1>
-    <p className="text-slate-600">اسکلت پروژه آماده است؛ صفحه‌ها و کامپوننت‌ها به‌صورت مرحله‌ای پیاده‌سازی می‌شوند.</p>
-  </section>
+  <EmptyState
+    icon="home"
+    title="خوش آمدید"
+    message="صفحه‌ی اصلی در مرحله‌ی بعد ساخته می‌شود."
+  />
 );
 
 export default HomePage;
