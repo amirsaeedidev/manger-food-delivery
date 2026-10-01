@@ -19,6 +19,7 @@ export const foods = [
   {
     id: 'greek-salad',
     name: 'سالاد یونانی',
+    title: 'سالاد یونانی ساده', // optional longer title used by the detail page
     price: 219900,
     rating: 4.9,
     category: 'salad',

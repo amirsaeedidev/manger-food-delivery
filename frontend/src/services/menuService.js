@@ -33,6 +33,11 @@ const menuService = {
     return foods.find((food) => food.id === id) || null;
   },
 
+  // Several foods at once (cart), in the order of `ids`; unknown ids are skipped.
+  async getItems(ids) {
+    return ids.map((id) => foods.find((food) => food.id === id)).filter(Boolean);
+  },
+
   async listOffers() {
     return offers;
   },

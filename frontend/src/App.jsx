@@ -17,10 +17,12 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 
 import AccountSettingsPage from './pages/AccountSettingsPage';
+import CartPage from './pages/CartPage';
 import ComingSoonPage from './pages/ComingSoonPage';
 import CustomerNotFoundPage from './pages/CustomerNotFoundPage';
 import CustomersPage from './pages/CustomersPage';
 import DashboardPage from './pages/DashboardPage';
+import FoodDetailPage from './pages/FoodDetailPage';
 import HomePage from './pages/HomePage';
 import InventoryPage from './pages/InventoryPage';
 import MenuPage from './pages/MenuPage';
@@ -56,7 +58,8 @@ const App = () => (
     {/* Customer app (mobile-first, dark and light theme) */}
     <Route element={<CustomerLayout />}>
       <Route index element={<HomePage />} />
-      <Route path="cart" element={<ComingSoonPage title="سبد خرید" />} />
+      <Route path="food/:id" element={<FoodDetailPage />} />
+      <Route path="cart" element={<CartPage />} />
       <Route path="menu" element={<ComingSoonPage title="منو" />} />
       <Route path="offers" element={<ComingSoonPage title="پیشنهادهای ویژه" />} />
       <Route path="messages" element={<ComingSoonPage title="پیام‌ها" />} />

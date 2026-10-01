@@ -4,11 +4,13 @@
  * Geometry follows the "Home" reference (430px frame): 80px high, rounded top corners, translucent
  * background with blur, five equal columns with 14px side padding and 26px icons. Home / mail / user
  * use solid icons, settings / bag use outline icons. In the RTL layout the first tab is on the right.
- * The active tab is painted with the brand green.
+ * The active tab is painted with the brand green; the cart tab shows the number of items in the cart.
  */
 import { NavLink } from 'react-router-dom';
 
+import Badge from '../Common/Badge';
 import Icon from '../Common/Icon';
+import useCartStore, { selectCartCount } from '../../store/cartStore';
 
 const TABS = [
   { to: '/', icon: 'home', label: 'خانه', solid: true, end: true },
@@ -18,31 +20,36 @@ const TABS = [
   { to: '/cart', icon: 'bag', label: 'سبد خرید' },
 ];
 
-const BottomNav = () => (
-  <nav
-    aria-label="ناوبری اصلی"
-    className="fixed inset-x-0 bottom-0 z-40 mx-auto h-[80px] w-full max-w-[430px] rounded-t-[28px] bg-ui-nav px-[14px] shadow-nav backdrop-blur-[12px]"
-  >
-    <ul className="grid h-full grid-cols-5">
-      {TABS.map((tab) => (
-        <li key={tab.to} className="grid place-items-center">
-          <NavLink
-            to={tab.to}
-            end={tab.end}
-            aria-label={tab.label}
-            title={tab.label}
-            className={({ isActive }) =>
-              `grid h-12 w-12 place-items-center rounded-full transition-colors ${
-                isActive ? 'text-ui-nav-active' : 'text-ui-nav-fg'
-              }`
-            }
-          >
-            <Icon name={tab.icon} size={26} filled={tab.solid} strokeWidth={1.8} />
-          </NavLink>
-        </li>
-      ))}
-    </ul>
-  </nav>
-);
+const BottomNav = () => {
+  const cartCount = useCartStore(selectCartCount);
+
+  return (
+    <nav
+      aria-label="ناوبری اصلی"
+      className="fixed inset-x-0 bottom-0 z-40 mx-auto h-[80px] w-full max-w-[430px] rounded-t-[28px] bg-ui-nav px-[14px] shadow-nav backdrop-blur-[12px]"
+    >
+      <ul className="grid h-full grid-cols-5">
+        {TABS.map((tab) => (
+          <li key={tab.to} className="grid place-items-center">
+            <NavLink
+              to={tab.to}
+              end={tab.end}
+              aria-label={tab.label}
+              title={tab.label}
+              className={({ isActive }) =>
+                `relative grid h-12 w-12 place-items-center rounded-full transition-colors ${
+                  isActive ? 'text-ui-nav-active' : 'text-ui-nav-fg'
+                }`
+              }
+            >
+              <Icon name={tab.icon} size={26} filled={tab.solid} strokeWidth={1.8} />
+              {tab.to === '/cart' && <Badge count={cartCount} className="absolute end-[6px] top-[6px]" />}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
 
 export default BottomNav;

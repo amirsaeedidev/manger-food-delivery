@@ -7,7 +7,8 @@
  */
 const VARIANTS = {
   solid: 'bg-ui-cta text-ui-cta-fg',
-  outline: 'border-[1.5px] border-ui-cta-outline bg-transparent text-ui-fg',
+  // The 1.5px outline of the design is an inset shadow: browsers snap real borders to whole pixels.
+  outline: 'bg-transparent text-ui-fg shadow-[inset_0_0_0_1.5px_var(--ui-cta-outline)]',
   ghost: 'bg-transparent text-ui-fg',
 };
 
