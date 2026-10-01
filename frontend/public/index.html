@@ -4,9 +4,25 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f97316" />
+    <meta name="theme-color" content="#1b1c20" />
     <meta name="description" content="سیستم مدیریت رستوران" />
     <title>سیستم مدیریت رستوران</title>
+    <script>
+      // Apply the saved theme before the first paint (prevents a light/dark flash).
+      // Keep the storage key, the default and the colors in sync with src/store/uiStore.js.
+      (function () {
+        var theme = 'dark';
+        try {
+          var saved = localStorage.getItem('restaurant-theme');
+          if (saved === 'light' || saved === 'dark') theme = saved;
+        } catch (e) {}
+        var root = document.documentElement;
+        root.setAttribute('data-theme', theme);
+        root.style.colorScheme = theme;
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', theme === 'light' ? '#f5f6fc' : '#1b1c20');
+      })();
+    </script>
   </head>
   <body>
     <noscript>برای استفاده از این برنامه باید جاوااسکریپت مرورگر فعال باشد.</noscript>

@@ -8,6 +8,9 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 
+// Self-hosted Persian font (variable weights 100-900); the font stack is defined in styles/variables.css.
+import '@fontsource-variable/vazirmatn';
+
 // Order matters: Tailwind first, then design tokens, global styles and responsive overrides.
 import './styles/tailwind.css';
 import './styles/variables.css';

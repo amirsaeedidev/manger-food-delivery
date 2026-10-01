@@ -1,6 +1,7 @@
 /**
  * Layout — application shell: header + sidebar + page content + footer.
  * Pages are rendered through <Outlet /> (see the nested routes in App.jsx).
+ * It paints its own light surface, so the admin panel does not follow the customer theme.
  */
 import { Outlet } from 'react-router-dom';
 
@@ -9,7 +10,7 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 
 const Layout = () => (
-  <div className="flex min-h-screen flex-col">
+  <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900">
     <Header />
 
     <div className="flex flex-1">

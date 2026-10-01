@@ -1,14 +1,21 @@
 /*
  * Design tokens (CSS variables).
- * tailwind.config.js maps the font and the primary color to these variables,
+ * tailwind.config.js maps the font and the colors to these variables,
  * so change them here to re-theme the whole application.
+ *
+ * Two groups:
+ *  1. --color-*  admin panel (single light look, see components/Layout)
+ *  2. --ui-*     customer app, available in a dark and a light theme
+ *                (selected by <html data-theme="dark|light">, toggled from store/uiStore.js)
+ *
+ * NOTE: the --ui-* values were measured by eye from the two reference screenshots
+ * (dark "Home" and light "Food detail"). Replace them with the exact values from
+ * Figma Dev Mode when the design files are available — see docs/DESIGN_SYSTEM.md.
  */
 :root {
-  /* Brand */
+  /* ── Admin panel ─────────────────────────────────────────────────────── */
   --color-primary: #f97316;
   --color-primary-dark: #ea580c;
-
-  /* Surfaces & text */
   --color-bg: #f8fafc;
   --color-surface: #ffffff;
   --color-text: #0f172a;
@@ -16,8 +23,85 @@
   --color-border: #e2e8f0;
 
   /*
-   * Persian-friendly font stack.
-   * TODO: load the Vazirmatn font (e.g. the "vazirmatn" npm package) — until then Tahoma is used.
+   * Persian font stack: Vazirmatn (variable font, self-hosted through the
+   * @fontsource-variable/vazirmatn package, imported in src/index.jsx).
    */
-  --font-family: 'Vazirmatn', Tahoma, 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-family: 'Vazirmatn Variable', Vazirmatn, Tahoma, 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Customer app: dark theme (default; reference: "Home" screen) ───────── */
+:root,
+:root[data-theme='dark'] {
+  --ui-bg: #1b1c20;
+  --ui-sheet: #25262b;
+  --ui-card: #ffffff;
+  --ui-card-fg: #16161a;
+  --ui-fg: #ffffff;
+  --ui-muted: #8b8f99;
+  --ui-line: rgba(255, 255, 255, 0.1);
+
+  --ui-field: #101a2e;
+  --ui-field-fg: #ffffff;
+  --ui-field-placeholder: #6b7384;
+
+  --ui-link: #3fbf72;
+  --ui-price: #2f9e5b;
+  --ui-accent: #3de07a;
+  --ui-accent-fg: #0b2216;
+
+  --ui-cta-bg: #3de07a;
+  --ui-cta-fg: #0b2216;
+  --ui-cta-outline: #ffffff;
+
+  --ui-rating: #ff9f0a;
+  --ui-badge: #ff6b6b;
+
+  --ui-stepper-bg: #33353b;
+  --ui-stepper-fg: #ffffff;
+
+  --ui-nav-bg: rgba(38, 38, 40, 0.72);
+  --ui-nav-fg: #ffffff;
+  --ui-nav-active: #22c55e;
+
+  --ui-shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --ui-shadow-stepper: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --ui-shadow-hero: 14px 18px 22px rgba(0, 0, 0, 0.45);
+}
+
+/* ── Customer app: light theme (reference: "Food detail" screen) ────────── */
+:root[data-theme='light'] {
+  --ui-bg: #f5f6fc;
+  --ui-sheet: #ffffff;
+  --ui-card: #ffffff;
+  --ui-card-fg: #1e1e1e;
+  --ui-fg: #1e1e1e;
+  --ui-muted: #8a8a8a;
+  --ui-line: #e9eaf2;
+
+  --ui-field: #ffffff;
+  --ui-field-fg: #1e1e1e;
+  --ui-field-placeholder: #9a9ca8;
+
+  --ui-link: #2f9e5b;
+  --ui-price: #2f9e5b;
+  --ui-accent: #3de07a;
+  --ui-accent-fg: #0b2216;
+
+  --ui-cta-bg: #1e1e1e;
+  --ui-cta-fg: #ffffff;
+  --ui-cta-outline: #1e1e1e;
+
+  --ui-rating: #ff9500;
+  --ui-badge: #ff6b6b;
+
+  --ui-stepper-bg: #ffffff;
+  --ui-stepper-fg: #1e1e1e;
+
+  --ui-nav-bg: rgba(255, 255, 255, 0.82);
+  --ui-nav-fg: #1e1e1e;
+  --ui-nav-active: #1faa55;
+
+  --ui-shadow-soft: 0 8px 24px rgba(24, 30, 60, 0.07);
+  --ui-shadow-stepper: 0 4px 12px rgba(24, 30, 60, 0.07);
+  --ui-shadow-hero: 14px 18px 22px rgba(30, 30, 60, 0.18);
 }
