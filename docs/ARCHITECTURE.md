@@ -91,29 +91,44 @@ Page (pages/) ─► Components (components/<module>/) ─► Hooks (hooks/) / S
                     utils/socket.js (Socket.io, autoConnect: false)            ─► /socket.io
 ```
 
-- **Pages:** هر صفحه یک مسیر در `App.jsx` است و داخل `Layout` (هدر، سایدبار، فوتر) نمایش داده می‌شود.
-- **Components:** به تفکیک ماژول (Order، Table، Menu، Customer، Inventory، Discount، Reservation، SMS، Dashboard، Reports، Payment، Auth، Settings، Common).
-- **Services:** هر فایل فراخوانی‌های API یک ماژول را کپسوله می‌کند و باید از نمونه‌ی مشترک `api.js` استفاده کند، نه مستقیم از axios.
-- **Store:** state سراسری با Zustand (`authStore`، `orderStore`، `tableStore`، `menuStore`، `customerStore`، `notificationStore`، `uiStore`).
+- **Pages:** هر صفحه یک مسیر در `App.jsx` است. صفحه‌های مشتری داخل `CustomerLayout` (ستون تا ۴۳۰ پیکسل و نوار پایین) و صفحه‌های مدیریت زیر `/admin` داخل `Layout` (هدر، سایدبار، فوتر) نمایش داده می‌شوند.
+- **Components:** به تفکیک ماژول (Order، Table، Menu، Customer، Inventory، Discount، Reservation، SMS، Dashboard، Reports، Payment، Auth، Settings، Common، Layout). کامپوننت‌های پایه‌ی مشترک (Icon، Button، Input، QuantityStepper، FoodImage، Avatar، Badge، ThemeToggle، EmptyState، Loading، SectionHeader) در `Common` هستند؛ بخش‌های رابط مشتری در `Menu` (جستجو، دسته‌ها، کارت و فهرست غذا)، `Discount` (بنر پیشنهاد) و `Layout` (CustomerLayout، BottomNav، CustomerHeader، PageHeader).
+- **Services:** هر فایل فراخوانی‌های API یک ماژول را کپسوله می‌کند و باید از نمونه‌ی مشترک `api.js` استفاده کند، نه مستقیم از axios. `menuService` فعلاً داده‌ی آزمایشی (`services/mock/menu.mock.js`) را با همان امضای async یک API واقعی برمی‌گرداند؛ با آماده شدن بک‌اند فقط بدنه‌ی توابع عوض می‌شود.
+- **Store:** state سراسری با Zustand: `uiStore` (تم تیره/روشن، در localStorage) و `cartStore` (سبد خرید مشتری، در localStorage) پیاده شده‌اند؛ `authStore`، `orderStore`، `tableStore`، `menuStore`، `customerStore` و `notificationStore` هنوز placeholder‌اند.
 - **Socket:** نمونه‌ی منفرد `utils/socket.js` خودکار وصل نمی‌شود؛ بعد از ورود کاربر باید `socket.connect()` صدا زده شود (در `hooks/useSocket.js`، برنامه‌ریزی‌شده).
 
 ### مسیرها
 
 | مسیر | محتوا |
 | --- | --- |
+| `/` | خانه‌ی مشتری (`HomePage`) در `CustomerLayout` |
+| `/food/:id` | جزئیات غذا (`FoodDetailPage`)؛ بدون نوار پایین |
+| `/cart` | سبد خرید (`CartPage`) |
+| `/settings` | تنظیمات مشتری و تغییر تم (`AccountSettingsPage`) |
+| `/messages`، `/profile`، `/notifications`، `/menu`، `/offers` | `ComingSoonPage` |
+| هر مسیر ناشناخته‌ی دیگر | `CustomerNotFoundPage` (۴۰۴ هم‌تم) |
+| `/admin` | پنل مدیریت در `Layout`؛ به `/admin/dashboard` هدایت می‌شود |
+| `/admin/dashboard`، `orders`، `tables`، `menu`، `customers`، `inventory`، `reservations`، `reports`، `settings` | صفحه‌های مدیریت (placeholder) |
+| `/admin/*` ناشناخته | `NotFoundPage` (۴۰۴ پنل مدیریت) |
 | `/login`، `/register`، `/forgot-password` | عمومی، بدون Layout |
-| `/` | `HomePage` |
-| `/dashboard`، `/orders`، `/tables`، `/menu`، `/customers`، `/inventory`، `/reservations`، `/reports`، `/settings` | صفحه‌های اصلی داخل Layout |
-| `*` | `NotFoundPage` |
 
-`ProtectedRoute` برای محافظت از مسیرها ساخته شده ولی فعلاً فقط عبور می‌دهد (احراز هویت را اعمال نمی‌کند) و هنوز در `App.jsx` به مسیرها وصل نشده است.
+`ProtectedRoute` برای محافظت از مسیرها ساخته شده ولی فعلاً فقط عبور می‌دهد (احراز هویت را اعمال نمی‌کند) و هنوز به مسیرها وصل نشده است؛ پنل مدیریت فعلاً بدون ورود در دسترس است.
 
 ### استایل و فارسی‌سازی
 
-- `public/index.html` با `lang="fa"` و `dir="rtl"` تعریف شده است؛ برای فاصله و حاشیه از ویژگی‌های منطقی Tailwind (مثل `border-e`، `ms-*`، `ps-*`) استفاده کنید تا با RTL سازگار بماند.
-- توکن‌های طراحی (رنگ اصلی، فونت) در `styles/variables.css` تعریف و در `tailwind.config.js` به Tailwind متصل شده‌اند.
-- فونت Vazirmatn هنوز بارگذاری نمی‌شود و فعلاً Tahoma استفاده می‌شود (برنامه‌ریزی‌شده).
-- فرمت اعداد و تاریخ شمسی در `utils/formatters.js` پیاده خواهد شد (برنامه‌ریزی‌شده).
+- `public/index.html` با `lang="fa"` و `dir="rtl"` تعریف شده است؛ برای فاصله و حاشیه از ویژگی‌های منطقی Tailwind (مثل `border-e`، `ms-*`، `ps-*`، `start-*`) استفاده کنید تا با RTL سازگار بماند.
+- فونت Vazirmatn (متغیر) از بسته‌ی npm و بدون CDN بارگذاری می‌شود (`src/index.jsx`).
+- توکن‌های طراحی در `styles/variables.css` تعریف و در `tailwind.config.js` به کلاس‌های `ui-*` وصل شده‌اند (جزئیات و جدول رنگ‌ها: [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)).
+- اعداد با رقم فارسی و جداکننده‌ی هزارگان در `utils/formatters.js` فرمت می‌شوند؛ نمایش تاریخ شمسی هنوز پیاده نشده است (برنامه‌ریزی‌شده).
+
+### تم تیره و روشن
+
+رابط مشتری دو تم دارد که با ویژگی `data-theme` روی `<html>` انتخاب می‌شوند. `store/uiStore.js` انتخاب را در `localStorage` نگه می‌دارد و یک اسکریپت کوچک در `public/index.html` تم ذخیره‌شده را پیش از اولین رندر اعمال می‌کند (بدون پرش رنگ). پنل مدیریت ظاهر روشن ثابت خودش را دارد و از تم مشتری پیروی نمی‌کند.
+
+### Asset ها و داده‌ی آزمایشی
+
+- عکس‌های غذا، آیکن دسته‌ها، بنر و آواتار از `src/assets/<گروه>/` با نام فایل = slug خوانده می‌شوند (`src/assets/index.js`)؛ تا وقتی فایل نیست، کامپوننت‌ها جای‌نگهدار نشان می‌دهند و چیدمان تغییر نمی‌کند. فهرست کامل slugها در [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md).
+- منو، دسته‌ها و پیشنهادها فعلاً از `services/mock/menu.mock.js` می‌آیند.
 
 ## استقرار با Docker
 
@@ -142,6 +157,10 @@ browser ──► frontend (nginx :80, host port 3000)
 | React | 18.3 | CRA با React 19 به‌درستی کار نمی‌کند |
 | استایل | Tailwind CSS 3.4 | CRA فقط Tailwind 3 را پشتیبانی می‌کند. فایل `postcss.config.js` در CRA استفاده نمی‌شود ولی برای مهاجرت‌های بعدی (مثل Vite) نگه داشته شده است |
 | state سراسری | Zustand | سبک و بدون boilerplate؛ جایگزین Redux |
+| تم | متغیرهای CSS + ویژگی `data-theme` | تغییر تم بدون رندر دوباره‌ی کامپوننت‌ها؛ کلاس‌های `ui-*` در Tailwind فقط به متغیرها اشاره می‌کنند |
+| آیکن‌ها | lucide-react پشت `Common/Icon` | یک نقطه‌ی تغییر؛ آیکن‌های جهت‌دار در RTL خودکار برعکس می‌شوند |
+| فونت | Vazirmatn متغیر (npm) | بدون CDN و با وزن‌های ۱۰۰ تا ۹۰۰ در یک فایل |
+| عکس‌ها | اسلات‌های `src/assets/<گروه>/<slug>` | عکس‌های Figma بدون تغییر کد جایگزین جای‌نگهدارها می‌شوند |
 | ارتباط با API | Axios با یک نمونه‌ی مشترک | امکان افزودن interceptor برای توکن و خطاها در یک نقطه |
 | proxy توسعه | `src/setupProxy.js` | فیلد `proxy` در `package.json` روی ماشین‌های بدون IP شبکه‌ی محلی باعث خطای راه‌اندازی و روی پیش‌نمایش‌های ابری باعث `Invalid Host header` می‌شود و WebSocket را هم مطمئن proxy نمی‌کند |
 | Docker | nginx برای فرانت‌اند | سرو فایل‌های ثابت، fallback مسیرهای SPA و proxy همین‌مبدأ برای `/api` و `/socket.io` |

@@ -4,14 +4,14 @@
 
 سیستم مدیریت رستوران برای ثبت و پیگیری سفارش‌ها، مدیریت میزها و رزروها، منو، مشتریان و باشگاه مشتریان، انبار، تخفیف‌ها، پرداخت، پیامک، گزارش‌ها و داشبورد مدیریتی؛ همراه با به‌روزرسانی لحظه‌ای (Socket.io) برای آشپزخانه و میزها.
 
-> 🚧 **وضعیت پروژه: اسکلت اولیه.** ساختار کامل پوشه‌ها و فایل‌ها ساخته شده و هم سرور و هم رابط کاربری اجرا می‌شوند، اما منطق ماژول‌ها (فیلدهای مدل‌ها، controllerها، صفحه‌ها و کامپوننت‌ها و …) هنوز پیاده‌سازی نشده و فایل‌های مربوط به آن‌ها placeholder هستند. وضعیت هر بخش در [docs/FEATURES.md](docs/FEATURES.md) نوشته شده است.
+> 🚧 **وضعیت پروژه: در حال توسعه.** سرور، اتصال دیتابیس، Socket.io و پوسته‌ی پنل مدیریت کار می‌کنند. **رابط مشتری** (صفحه‌ی اصلی، جزئیات غذا، سبد خرید و تنظیمات، با تم تیره و روشن و راست‌به‌چپ) ساخته شده ولی با **داده‌ی آزمایشی** است و هنوز به API وصل نیست؛ عکس غذاها هم جای‌نگهدار است تا خروجی Figma برسد ([docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md)). بقیه‌ی ماژول‌ها (فیلدهای مدل‌ها، controllerها، صفحه‌های مدیریت و …) هنوز placeholder هستند. وضعیت هر بخش در [docs/FEATURES.md](docs/FEATURES.md).
 
 ## فناوری‌ها
 
 | بخش | ابزار |
 | --- | --- |
 | Backend | Node.js، Express 5، MongoDB با Mongoose 9، Socket.io، Helmet، CORS، Morgan |
-| Frontend | React 18، React Router 6، Zustand، Axios، Socket.io-client، Tailwind CSS 3 (ساخته‌شده با Create React App) |
+| Frontend | React 18، React Router 6، Zustand، Axios، Socket.io-client، Tailwind CSS 3، آیکن‌های lucide-react، فونت Vazirmatn (ساخته‌شده با Create React App) |
 | سرویس‌های بیرونی (برنامه‌ریزی‌شده) | پیامک (Kavenegar یا Smsir)، درگاه پرداخت ZarinPal، ایمیل (SMTP) |
 | استقرار | Docker و Docker Compose (MongoDB + Backend + Frontend/nginx) |
 
@@ -34,12 +34,13 @@
 ├── frontend/             # رابط کاربری React
 │   ├── public/           # index.html، favicon، logo
 │   └── src/
+│       ├── assets/       # عکس‌های خروجی Figma (اسلات‌ها؛ جای‌نگهدار تا رسیدن فایل‌ها)
 │       ├── components/   # کامپوننت‌ها به تفکیک ماژول
 │       ├── pages/        # صفحه‌های اصلی
 │       ├── hooks/        # Custom Hooks
-│       ├── services/     # فراخوانی API (Axios)
-│       ├── store/        # state سراسری (Zustand)
-│       ├── styles/       # Tailwind و استایل‌های سراسری
+│       ├── services/     # فراخوانی API (Axios) و داده‌ی آزمایشی منو
+│       ├── store/        # state سراسری (Zustand): تم، سبد خرید، ...
+│       ├── styles/       # Tailwind، توکن‌های تم تیره/روشن و استایل‌های سراسری
 │       ├── constants/    # ثابت‌ها
 │       ├── utils/        # توابع کمکی، Socket، چاپ
 │       ├── App.jsx       # مسیرها (Routes)
@@ -78,6 +79,8 @@ npm start
 
 فرانت‌اند درخواست‌های `/api` و `/socket.io` را در حالت توسعه (با `src/setupProxy.js`) به بک‌اند (پورت ۵۰۰۰) proxy می‌کند؛ پس نیازی به تنظیم CORS یا آدرس API نیست.
 
+بعد از اجرا، سایت مشتری روی <http://localhost:3000> و پنل مدیریت روی <http://localhost:3000/admin> باز می‌شود. رابط مشتری فعلاً به بک‌اند نیاز ندارد.
+
 ### اجرا با Docker
 
 ```bash
@@ -89,6 +92,18 @@ docker compose -f docker/docker-compose.yml up --build
 
 جزئیات بیشتر (متغیرهای محیطی، عیب‌یابی) در [docs/SETUP.md](docs/SETUP.md).
 
+## صفحه‌ها
+
+| مسیر | صفحه |
+| --- | --- |
+| `/` | خانه‌ی مشتری: جستجو، پیشنهاد ویژه، دسته‌ها، ویژه‌ی هفته |
+| `/food/:id` | جزئیات غذا، انتخاب تعداد، سفارش و افزودن به سبد |
+| `/cart` | سبد خرید (ثبت سفارش هنوز فعال نیست) |
+| `/settings` | تنظیمات مشتری و تغییر تم تیره/روشن |
+| `/messages`، `/profile`، `/notifications`، `/menu`، `/offers` | به‌زودی |
+| `/admin/...` | پنل مدیریت (داشبورد، سفارش‌ها، میزها، منو، مشتریان، انبار، رزروها، گزارش‌ها، تنظیمات) — فعلاً placeholder |
+| `/login`، `/register`، `/forgot-password` | احراز هویت (placeholder) |
+
 ## مستندات
 
 | فایل | محتوا |
@@ -98,6 +113,7 @@ docker compose -f docker/docker-compose.yml up --build
 | [docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md) | قراردادهای API و فهرست مسیرها |
 | [docs/DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md) | مدل‌ها (collectionها) و ارتباط آن‌ها |
 | [docs/FEATURES.md](docs/FEATURES.md) | قابلیت‌ها و وضعیت پیاده‌سازی |
+| [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) | توکن‌ها، مشخصات پیکسلی، RTL و فهرست asset های Figma |
 | [backend/README.md](backend/README.md) | راهنمای بک‌اند |
 | [frontend/README.md](frontend/README.md) | راهنمای فرانت‌اند |
 
