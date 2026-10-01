@@ -1,0 +1,6 @@
+/*
+ * Custom responsive rules that Tailwind's utility classes (sm:, md:, lg: ...) cannot express.
+ * Prefer Tailwind utilities in the components and add rules here only when really needed.
+ *
+ * TODO: add breakpoint-specific rules (e.g. a collapsible sidebar on small screens).
+ */

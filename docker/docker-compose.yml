@@ -1,0 +1,70 @@
+# Restaurant management — MongoDB + backend + frontend (nginx)
+#
+# Run from the repository root:
+#   docker compose -f docker/docker-compose.yml up --build
+#
+# Before the first run create backend/.env (cp backend/.env.example backend/.env)
+# and set JWT_SECRET in it — the backend refuses to start in production without a real secret.
+# Requires Docker Compose v2.24+ (optional `env_file` entries).
+#
+# Frontend: http://localhost:3000   Backend API: http://localhost:5000/api/health
+
+name: restaurant-management
+
+services:
+  mongo:
+    image: mongo:8
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    # MongoDB is only reachable from the other containers.
+    # To inspect it from the host (e.g. with MongoDB Compass) add:
+    #   ports:
+    #     - "127.0.0.1:27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.backend
+    restart: unless-stopped
+    # Secrets and third-party keys (JWT, SMS, ZarinPal, SMTP ...) come from backend/.env.
+    env_file:
+      - path: ../backend/.env
+        required: false
+    # Values below always win over backend/.env.
+    environment:
+      NODE_ENV: production
+      PORT: "5000"
+      MONGODB_URI: mongodb://mongo:27017/restaurant-management
+      CLIENT_URL: http://localhost:3000
+    depends_on:
+      mongo:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:5000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "3000:80"
+
+volumes:
+  mongo-data:

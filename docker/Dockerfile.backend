@@ -1,0 +1,27 @@
+# syntax=docker/dockerfile:1
+#
+# Backend image (Express + Socket.io).
+# The build context is the REPOSITORY ROOT (see docker-compose.yml):
+#   docker build -f docker/Dockerfile.backend -t restaurant-backend .
+
+FROM node:22-alpine
+
+ENV NODE_ENV=production
+WORKDIR /app
+
+# Install production dependencies first so this layer is cached until package.json changes.
+# `npm ci` is used when a lockfile exists, otherwise `npm install`.
+COPY backend/package*.json ./
+RUN if [ -f package-lock.json ]; then npm ci --omit=dev; else npm install --omit=dev; fi \
+    && npm cache clean --force
+
+# Application source (only what is needed at runtime)
+COPY backend/server.js ./server.js
+COPY backend/src ./src
+
+EXPOSE 5000
+
+# Run as the unprivileged user that ships with the official Node image
+USER node
+
+CMD ["node", "server.js"]

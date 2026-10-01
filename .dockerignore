@@ -1,0 +1,11 @@
+# The Docker build context is the repository root (see docker/docker-compose.yml).
+# Keep it small and free of secrets: none of this is needed to build the images.
+.git
+**/node_modules
+**/build
+**/dist
+**/.env
+**/.env.*
+**/*.log
+.vscode
+.idea

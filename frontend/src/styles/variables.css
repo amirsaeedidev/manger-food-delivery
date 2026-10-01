@@ -1,0 +1,23 @@
+/*
+ * Design tokens (CSS variables).
+ * tailwind.config.js maps the font and the primary color to these variables,
+ * so change them here to re-theme the whole application.
+ */
+:root {
+  /* Brand */
+  --color-primary: #f97316;
+  --color-primary-dark: #ea580c;
+
+  /* Surfaces & text */
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-muted: #64748b;
+  --color-border: #e2e8f0;
+
+  /*
+   * Persian-friendly font stack.
+   * TODO: load the Vazirmatn font (e.g. the "vazirmatn" npm package) — until then Tahoma is used.
+   */
+  --font-family: 'Vazirmatn', Tahoma, 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
